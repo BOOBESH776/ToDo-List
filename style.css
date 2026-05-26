@@ -1,0 +1,21 @@
+
+.to-do-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 200vh;
+    max-height: 300vh;
+    /* justify-content: center; */
+}
+
+.task-container {
+    display: flex;
+    justify-content: center;   
+}
+
+.task-container .btn {
+    display: flex;
+}
+
+.task-modify {
+    cursor: pointer;
+}
