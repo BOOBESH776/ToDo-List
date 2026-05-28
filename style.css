@@ -19,3 +19,8 @@
 .task-modify {
     cursor: pointer;
 }
+
+.TaskData{
+    display: flex;
+    justify-self: center;
+}
