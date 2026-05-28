@@ -1,4 +1,5 @@
 let tasks = [];
+let CompleteTask = 0;
 
 function btn() {
     Task();
@@ -50,32 +51,30 @@ function Task() {
     tasks.push(UserTask);
 
     // TASK COUNT
-    const TaskData = document.getElementById("TaskData");
-
-    TaskData.innerHTML = `
-        <span>Your Tasks : ${tasks.length}</span>
-    `;
-
+    const yt = document.getElementById("yt").textContent = tasks.length;
     input.value = "";
 }
 
 const Task_Card = document.getElementById("Task_Card");
-
 Task_Card.addEventListener("change", function (e) {
+    const ct = document.getElementById("yt");
 
     if (e.target.classList.contains("check")) {
         let taskText = e.target.nextElementSibling;
 
         if (e.target.checked) {
-
             taskText.style.textDecoration = "line-through";
             taskText.style.color = "green";
+            CompleteTask++;
 
         } else {
 
             taskText.style.textDecoration = "none";
             taskText.style.color = "black";
+            CompleteTask--;
         }
+        let ct = document.getElementById("ct").textContent = CompleteTask;;
+
     }
 });
 
@@ -90,11 +89,9 @@ Task_Card.addEventListener("click", function (e) {
 
         tasks.pop();
 
-        const TaskData = document.getElementById("TaskData");
+        const yt = document.getElementById("yt");
 
-        TaskData.innerHTML = `
-            <span>Your Tasks : ${tasks.length}</span>
-        `;
+        document.getElementById("yt").textContent = tasks.length;
     }
 
 
@@ -110,25 +107,25 @@ Task_Card.addEventListener("click", function (e) {
 
         taskText.outerHTML = `
 
-            <span class="edit-area d-flex gap-2">
+                    < span class="edit-area d-flex gap-2" >
 
-                <input 
-                    type="text"
-                    class="edit-input form-control"
-                    value="${currentText}"
-                >
+                        <input
+                            type="text"
+                            class="edit-input form-control"
+                            value="${currentText}"
+                        >
 
-                <button class="save-btn btn btn-success btn-sm">
-                    ✔
-                </button>
+                            <button class="save-btn btn btn-success btn-sm">
+                                ✔
+                            </button>
 
-                <button class="cancel-btn btn btn-danger btn-sm">
-                    ✖
-                </button>
+                            <button class="cancel-btn btn btn-danger btn-sm">
+                                ✖
+                            </button>
 
-            </span>
+                        </>
 
-        `;
+            `;
     }
 
 
@@ -149,11 +146,11 @@ Task_Card.addEventListener("click", function (e) {
 
         cardBody.querySelector(".edit-area").outerHTML = `
 
-            <span class="task-text">
-                ${newValue}
-            </span>
+                < span class="task-text" >
+                    ${newValue}
+            </ >
 
-        `;
+                `;
     }
 
 
@@ -164,11 +161,11 @@ Task_Card.addEventListener("click", function (e) {
         const inputField = cardBody.querySelector(".edit-input");
         const oldValue = inputField.defaultValue;
         cardBody.querySelector(".edit-area").outerHTML = `
-            <span class="task-text">
-                ${oldValue}
-            </span>
+                < span class="task-text" >
+                    ${oldValue}
+            </ >
 
-        `;
+                `;
     }
 
 });
