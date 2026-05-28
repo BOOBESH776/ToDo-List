@@ -1,7 +1,12 @@
-let tasks = JSON.parse(localStorage.getItem("data")) || [];
+let tasks = [];
+const TaskData = JSON.parse(localStorage.getItem("data")) || []
 let CompleteTask = 0;
 function btn() {
     Task();
+}
+
+function SavaData() {
+    localStorage.setItem("data", JSON.stringify(TaskData));
 }
 
 function Task() {
@@ -49,59 +54,59 @@ function Task() {
 
     tasks.push(UserTask);
     SavaData();
-        // TASK COUNT
-        const yt = document.getElementById("yt").textContent = tasks.length;
-        input.value = "";
+    // TASK COUNT
+    const yt = document.getElementById("yt").textContent = tasks.length;
+    input.value = "";
+}
+
+const Task_Card = document.getElementById("Task_Card");
+Task_Card.addEventListener("change", function (e) {
+
+    if (e.target.classList.contains("check")) {
+        let taskText = e.target.nextElementSibling;
+
+        if (e.target.checked) {
+            taskText.style.textDecoration = "line-through";
+            taskText.style.color = "green";
+            CompleteTask++;
+
+        } else {
+
+            taskText.style.textDecoration = "none";
+            taskText.style.color = "black";
+            CompleteTask--;
+        }
+        let ct = document.getElementById("ct").textContent = CompleteTask;;
+
+    }
+});
+
+
+Task_Card.addEventListener("click", function (e) {
+
+    // DELETE TASK
+
+    if (e.target.classList.contains("delete")) {
+
+        e.target.closest(".card-body").remove();
+
+        tasks.pop();
+        SavaData()
+        document.getElementById("yt").textContent = tasks.length;
     }
 
-    const Task_Card = document.getElementById("Task_Card");
-    Task_Card.addEventListener("change", function (e) {
 
-        if (e.target.classList.contains("check")) {
-            let taskText = e.target.nextElementSibling;
+    // EDIT TASK
 
-            if (e.target.checked) {
-                taskText.style.textDecoration = "line-through";
-                taskText.style.color = "green";
-                CompleteTask++;
+    if (e.target.classList.contains("edit")) {
 
-            } else {
+        const cardBody = e.target.closest(".card-body");
 
-                taskText.style.textDecoration = "none";
-                taskText.style.color = "black";
-                CompleteTask--;
-            }
-            let ct = document.getElementById("ct").textContent = CompleteTask;;
+        const taskText = cardBody.querySelector(".task-text");
 
-        }
-    });
+        const currentText = taskText.innerText;
 
-
-    Task_Card.addEventListener("click", function (e) {
-
-        // DELETE TASK
-
-        if (e.target.classList.contains("delete")) {
-
-            e.target.closest(".card-body").remove();
-
-            tasks.pop();
-            SavaData()
-            document.getElementById("yt").textContent = tasks.length;
-        }
-
-
-        // EDIT TASK
-
-        if (e.target.classList.contains("edit")) {
-
-            const cardBody = e.target.closest(".card-body");
-
-            const taskText = cardBody.querySelector(".task-text");
-
-            const currentText = taskText.innerText;
-
-            taskText.outerHTML = `
+        taskText.outerHTML = `
 
                     <span class="edit-area d-flex gap-2">
 
@@ -122,50 +127,48 @@ function Task() {
                         </span>
 
             `;
+    }
+
+
+    // SAVE BTN
+
+    if (e.target.classList.contains("save-btn")) {
+
+        const cardBody = e.target.closest(".card-body");
+
+        const inputField = cardBody.querySelector(".edit-input");
+
+        const newValue = inputField.value.trim();
+
+        if (newValue === "") {
+            alert("Task cannot be empty");
+            return;
         }
 
-
-        // SAVE BTN
-
-        if (e.target.classList.contains("save-btn")) {
-
-            const cardBody = e.target.closest(".card-body");
-
-            const inputField = cardBody.querySelector(".edit-input");
-
-            const newValue = inputField.value.trim();
-
-            if (newValue === "") {
-                alert("Task cannot be empty");
-                return;
-            }
-
-            cardBody.querySelector(".edit-area").outerHTML = `
+        cardBody.querySelector(".edit-area").outerHTML = `
 
                 <span class="task-text">
                     ${newValue}
             </span>
 
                 `;
-            SavaData()
-        }
+        SavaData()
+    }
 
 
-        // CANCEL BTN
+    // CANCEL BTN
 
-        if (e.target.classList.contains("cancel-btn")) {
-            const cardBody = e.target.closest(".card-body");
-            const inputField = cardBody.querySelector(".edit-input");
-            const oldValue = inputField.defaultValue;
-            cardBody.querySelector(".edit-area").outerHTML = `
+    if (e.target.classList.contains("cancel-btn")) {
+        const cardBody = e.target.closest(".card-body");
+        const inputField = cardBody.querySelector(".edit-input");
+        const oldValue = inputField.defaultValue;
+        cardBody.querySelector(".edit-area").outerHTML = `
                 <span class="task-text">
                     ${oldValue}
             </span>
 
                 `;
-        }
-
-    });
-    function SavaData() {
-        localStorage.setItem("data", JSON.stringify(tasks));
     }
+
+});
+
