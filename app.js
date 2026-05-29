@@ -87,9 +87,7 @@ Task_Card.addEventListener("click", function (e) {
     // DELETE TASK
 
     if (e.target.classList.contains("delete")) {
-
         e.target.closest(".card-body").remove();
-
         tasks.pop();
         SavaData()
         document.getElementById("yt").textContent = tasks.length;
