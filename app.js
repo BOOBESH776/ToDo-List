@@ -1,13 +1,8 @@
-let tasks = [];
-const TaskData = JSON.parse(localStorage.getItem("data")) || []
 let CompleteTask = 0;
 function btn() {
     Task();
 }
 
-function SavaData() {
-    localStorage.setItem("data", JSON.stringify(TaskData));
-}
 
 function Task() {
     let input = document.getElementById("user_task");
@@ -38,11 +33,10 @@ function Task() {
         </div>
     `);
 
+    input.value = "";
     tasks.push(UserTask);
-    SavaData();
     // TASK COUNT
     const yt = document.getElementById("yt").textContent = tasks.length;
-    input.value = "";
 }
 
 const Task_Card = document.getElementById("Task_Card");
@@ -68,7 +62,6 @@ Task_Card.addEventListener("click", function (e) {
     if (e.target.classList.contains("delete")) {
         e.target.closest(".card-body").remove();
         tasks.pop();
-        SavaData()
         document.getElementById("yt").textContent = tasks.length;
     }
     // EDIT TASK
@@ -108,7 +101,7 @@ Task_Card.addEventListener("click", function (e) {
                     ${newValue}
             </span>
                 `;
-        SavaData()
+
     }
 
     // CANCEL BTN
